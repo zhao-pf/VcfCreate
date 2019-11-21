@@ -21,29 +21,57 @@
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/et_startNumber"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+
+        android:id="@+id/et_startNumber1"
+        android:layout_width="80dp"
+        android:layout_height="42dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="请输入起始电话"
         android:inputType="number"
+        android:maxLength="3"
+        android:text="159"
+        app:layout_constraintBottom_toBottomOf="@+id/et_startNumber2"
+        app:layout_constraintEnd_toStartOf="@+id/et_startNumber2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/et_startNumber2"
+        android:layout_width="80dp"
+        android:layout_height="42dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="7"
         app:layout_constraintBottom_toTopOf="@+id/et_number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.865" />
+        app:layout_constraintVertical_bias="0.784" />
+
+    <EditText
+        android:id="@+id/et_startNumber3"
+        android:layout_width="80dp"
+        android:layout_height="42dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="7"
+        android:text="6307"
+        app:layout_constraintBottom_toBottomOf="@+id/et_startNumber2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/et_startNumber2" />
 
     <EditText
         android:id="@+id/et_number"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="56dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="生成名片个数(0-80000)"
+        android:hint="递增生成名片个数"
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/createVcard"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,6 +125,21 @@
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
 
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="goToGitHub"
+        android:text="字段1"
+        android:textColor="#0099FF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.156"
+        tools:ignore="MissingConstraints" />
+
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
         android:layout_width="wrap_content"
@@ -107,6 +150,34 @@
         android:id="@+id/group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/createVcard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_number">
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="字段1" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="字段2" />
+
+        <RadioButton
+            android:id="@+id/radioButton4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="字段3" />
+    </RadioGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

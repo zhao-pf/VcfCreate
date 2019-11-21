@@ -2,19 +2,17 @@ package com.zhaopf.createvcf;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.CycleInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,7 +29,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 import a_vcard.android.provider.Contacts;
 import a_vcard.android.syncml.pim.vcard.ContactStruct;
@@ -45,9 +42,7 @@ import a_vcard.android.syncml.pim.vcard.VCardException;
  * Github:https://github.com/zhao-pf/VcfCreate
  */
 
-public class MainActivity extends AppCompatActivity {
-
-
+public class MainActivity extends AppCompatActivity implements TextWatcher{
     public static final String VCARD_FILE_PATH = Environment.getExternalStorageDirectory() + "/Download";
     //读写权限
     private static String[] PERMISSIONS_STORAGE = {
@@ -55,33 +50,105 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     //请求状态码
     private static int REQUEST_PERMISSION_CODE = 1;
+    EditText startNumber1;
+    EditText startNumber2;
+    EditText startNumber3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         Button button = findViewById(R.id.createVcard);
+
+
+        startNumber1 = findViewById(R.id.et_startNumber1);//字段 1
+        startNumber2 = findViewById(R.id.et_startNumber2);//字段 2
+        startNumber3 = findViewById(R.id.et_startNumber3);//字段 3
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText startNumber = findViewById(R.id.et_startNumber);//开始号码
+
+
                 EditText number = findViewById(R.id.et_number);//生成数量
 
-                if (startNumber.getText().toString().trim().equals("")) {
+                if (startNumber1.getText().toString().trim().equals("")) {
                     Toast.makeText(MainActivity.this, "号码为空", Toast.LENGTH_SHORT).show();
                 } else {
                     if (number.getText().toString().trim().equals("")) {
                         Toast.makeText(MainActivity.this, "数量为空", Toast.LENGTH_SHORT).show();
                     } else {
-                        long start_number = Long.parseLong(String.valueOf(startNumber.getText()));
+                        long start_number = Long.parseLong(String.valueOf(startNumber1.getText()));
                         int phone_number = Integer.parseInt(String.valueOf(number.getText()));
                         generatorVCard(start_number, phone_number);
                     }
                 }
             }
         });
+
+
+        startNumber1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (startNumber1.length() == 3) {
+                    startNumber2.requestFocus();
+                }
+            }
+        });
+
+
+        startNumber2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                startNumber3.setFilters(new InputFilter[]{new InputFilter.LengthFilter(8 - startNumber2.length())});
+                if (startNumber2.length() == 7) {
+                    startNumber3.requestFocus();
+
+                }
+            }
+        });
+
+
+        startNumber3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                int one = startNumber2.length();
+                int two = startNumber3.length();
+
+            }
+        });
+
+
     }
 
     /**
@@ -104,8 +171,6 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("SimpleDateFormat")
     public void generatorVCard(long number, int creatNumber) {
-
-
         //获取存储权限
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -160,5 +225,20 @@ public class MainActivity extends AppCompatActivity {
         intent.setAction("android.intent.action.VIEW");
         intent.setData(uri);
         startActivity(intent);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
