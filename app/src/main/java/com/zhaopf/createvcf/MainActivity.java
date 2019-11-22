@@ -42,7 +42,7 @@ import a_vcard.android.syncml.pim.vcard.VCardException;
  * Github:https://github.com/zhao-pf/VcfCreate
  */
 
-public class MainActivity extends AppCompatActivity implements TextWatcher{
+public class MainActivity extends AppCompatActivity {
     public static final String VCARD_FILE_PATH = Environment.getExternalStorageDirectory() + "/Download";
     //读写权限
     private static String[] PERMISSIONS_STORAGE = {
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher{
     EditText startNumber1;
     EditText startNumber2;
     EditText startNumber3;
+    EditText number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,26 +61,54 @@ public class MainActivity extends AppCompatActivity implements TextWatcher{
         setContentView(R.layout.activity_main);
         Button button = findViewById(R.id.createVcard);
 
-
+        number = findViewById(R.id.et_number);//生成数量
         startNumber1 = findViewById(R.id.et_startNumber1);//字段 1
         startNumber2 = findViewById(R.id.et_startNumber2);//字段 2
         startNumber3 = findViewById(R.id.et_startNumber3);//字段 3
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                EditText number = findViewById(R.id.et_number);//生成数量
-
+                number = findViewById(R.id.et_number);//生成数量
+                startNumber1 = findViewById(R.id.et_startNumber1);//字段 1
+                startNumber2 = findViewById(R.id.et_startNumber2);//字段 2
+                startNumber3 = findViewById(R.id.et_startNumber3);//字段 3
                 if (startNumber1.getText().toString().trim().equals("")) {
                     Toast.makeText(MainActivity.this, "号码为空", Toast.LENGTH_SHORT).show();
                 } else {
                     if (number.getText().toString().trim().equals("")) {
                         Toast.makeText(MainActivity.this, "数量为空", Toast.LENGTH_SHORT).show();
                     } else {
-                        long start_number = Long.parseLong(String.valueOf(startNumber1.getText()));
-                        int phone_number = Integer.parseInt(String.valueOf(number.getText()));
-                        generatorVCard(start_number, phone_number);
+                        long start_number1 = Long.parseLong(String.valueOf(startNumber1.getText()));
+                        long start_number2 = Long.parseLong(String.valueOf(startNumber2.getText()));
+                        long start_number3 = Long.parseLong(String.valueOf(startNumber3.getText()));
+                        long create_number = Integer.parseInt(String.valueOf(number.getText()));
+
+
+                        int x = (int) Math.pow(10, number.length()) - 1;
+                        long maxnumber = (int) Math.pow(10, startNumber2.length()) - 1;
+                        Log.e("x", String.valueOf(x));
+                        Log.e("start_number", String.valueOf(start_number2));
+                        long max = maxnumber - start_number2;
+                        if (create_number > max) {
+                            Log.e("max", String.valueOf(max));
+                            Toast.makeText(MainActivity.this, "最大生成数量为" + max, Toast.LENGTH_SHORT).show();
+                            number.setText(max + "");
+                        } else {
+
+
+
+
+
+
+
+
+                            Toast.makeText(MainActivity.this, "生成成功", Toast.LENGTH_SHORT).show();
+
+                            generatorVCard(start_number1,start_number2,start_number3, create_number);//生成函数，判断循环某项就可以
+                        }
+
+
                     }
                 }
             }
@@ -170,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher{
     // 生成vcard文件
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("SimpleDateFormat")
-    public void generatorVCard(long number, int creatNumber) {
+    public void generatorVCard(long number1,long number2,long number3, int creatNumber) {
         //获取存储权限
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -186,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher{
             writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
             //通过循环遍历生成联系人，可以通过随机生成名字
             for (int i = 0; i <= creatNumber; i++) {
-                number++;
+                number1++;
                 Log.e("number", String.valueOf(number));
                 //创建一个联系人
                 VCardComposer composer = new VCardComposer();
@@ -227,18 +256,5 @@ public class MainActivity extends AppCompatActivity implements TextWatcher{
         startActivity(intent);
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
 }

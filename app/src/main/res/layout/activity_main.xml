@@ -29,7 +29,6 @@
         android:gravity="center"
         android:inputType="number"
         android:maxLength="3"
-        android:text="159"
         app:layout_constraintBottom_toBottomOf="@+id/et_startNumber2"
         app:layout_constraintEnd_toStartOf="@+id/et_startNumber2"
         app:layout_constraintHorizontal_bias="1.0"
@@ -58,7 +57,6 @@
         android:gravity="center"
         android:inputType="number"
         android:maxLength="7"
-        android:text="6307"
         app:layout_constraintBottom_toBottomOf="@+id/et_startNumber2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -70,6 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="56dp"
         android:ems="10"
+        android:maxLength="7"
         android:gravity="center"
         android:hint="递增生成名片个数"
         android:inputType="number"
@@ -84,6 +83,7 @@
         android:layout_height="wrap_content"
         android:lines="3"
         android:text="待完成：后期会增加各个省份号码直接选择，免去输入，直接生成某个号码段的全部号码，以及自定义"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -99,6 +99,7 @@
         android:gravity="center"
         android:lines="6"
         android:text="请输入11位电话号码，会从最后一位开始循环加,例如输入13334410000，输入生成9999个，会自动生成13334410000-13334419999的联系人，联系人名字为电话号码"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
@@ -132,6 +133,7 @@
         android:onClick="goToGitHub"
         android:text="字段1"
         android:textColor="#0099FF"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -160,20 +162,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_number">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="循环字段" />
+
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/radioButton1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="字段1" />
 
         <RadioButton
-            android:id="@+id/radioButton3"
+            android:id="@+id/radioButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="字段2" />
 
         <RadioButton
-            android:id="@+id/radioButton4"
+            android:id="@+id/radioButton3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="字段3" />
