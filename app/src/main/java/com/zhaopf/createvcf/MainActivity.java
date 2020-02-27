@@ -97,15 +97,9 @@ public class MainActivity extends AppCompatActivity {
                         } else {
 
 
-
-
-
-
-
-
                             Toast.makeText(MainActivity.this, "生成成功", Toast.LENGTH_SHORT).show();
 
-                            generatorVCard(start_number1,start_number2,start_number3, create_number);//生成函数，判断循环某项就可以
+                            generatorVCard(start_number1, start_number2, start_number3, create_number);//生成函数，判断循环某项就可以
                         }
 
 
@@ -157,26 +151,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        startNumber3.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                int one = startNumber2.length();
-                int two = startNumber3.length();
-
-            }
-        });
-
 
     }
 
@@ -199,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     // 生成vcard文件
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("SimpleDateFormat")
-    public void generatorVCard(long number1,long number2,long number3, int creatNumber) {
+    public void generatorVCard(long number1, long number2, long number3, long creatNumber) {
         //获取存储权限
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -213,21 +187,56 @@ public class MainActivity extends AppCompatActivity {
         //得到存储卡的根路径，将fileName的文件写入到根目录下
         try {
             writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+
+
+
+
+
+
             //通过循环遍历生成联系人，可以通过随机生成名字
             for (int i = 0; i <= creatNumber; i++) {
-                number1++;
-                Log.e("number", String.valueOf(number));
+
+                number2++;
+//                Log.e("number1", String.valueOf(number1));
+//                Log.e("number2", String.valueOf(number2));
+//                Log.e("number3", String.valueOf(number3));
                 //创建一个联系人
                 VCardComposer composer = new VCardComposer();
                 ContactStruct contact1 = new ContactStruct();
                 contact1.name = number + "";//名字
-                contact1.addPhone(Contacts.Phones.TYPE_MOBILE, String.valueOf(number), null, true);
+                contact1.addPhone(Contacts.Phones.TYPE_MOBILE, number1+String.valueOf(number2)+number3, null, true);
                 String vcardString;
                 vcardString = composer.createVCard(contact1, VCardComposer.VERSION_VCARD30_INT);
                 //将vcardString写入
                 writer.write(vcardString);
                 writer.write("\n");
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             writer.close();
             Toast.makeText(MainActivity.this, "已成功导出到Download/" + fileName + "文件", Toast.LENGTH_SHORT).show();
